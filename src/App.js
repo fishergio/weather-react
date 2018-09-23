@@ -17,15 +17,20 @@ const cities = [
   "Madrid,es"
 ]
 
-
-
 class App extends Component {
 
+  constructor(){
+    super();
+    this.state = { city: null }
+  }
+
   handleSelectedLocation = city => {
+    this.setState({ city })
     console.log("handleSelectedLocation", city)
   }
 
   render() {
+    const { city } = this.state;
     return (
       <Grid>
         <Row>
@@ -47,7 +52,11 @@ class App extends Component {
           <Col xs={12} md={6}>
           <Paper elevation={4}>
             <div className="details">
-            <ForecastExtended city={'Guadalajara,jal'}></ForecastExtended>
+            {
+              (city) 
+              ? <ForecastExtended city={city}></ForecastExtended>
+              : <h3>No se ha seleccionado una ciudad.</h3>
+            }
             </div>
           </Paper>
           </Col>
