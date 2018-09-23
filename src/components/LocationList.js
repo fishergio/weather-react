@@ -1,12 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import WeatherLocation from './WeatherLocation';
 
-const LocationList = () => (
-  <div>
-    <WeatherLocation city="Guadalajara, Jal"/>
-    <WeatherLocation city="Rusia, rus"/>
-    <WeatherLocation city="Morelia, mich"/>
-  </div>
+const strToComponent = cities => (
+  cities.map(city => <WeatherLocation key={city} city={ city } />)
+) 
+const LocationList = ({cities}) => (
+    <div> { strToComponent(cities) } </div>
 )
+
+LocationList.propTypes = {
+  cities: PropTypes.array,
+}
 
 export default LocationList;
