@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { createStore } from 'redux';
+import { setCity } from './actions/'
 import { Grid, Row, Col} from 'react-flexbox-grid';
 import LocationList from "./components/LocationList";
 import ForecastExtended from './components/ForecastExtended';
@@ -27,12 +28,12 @@ class App extends Component {
     this.state = { city: null }
   }
 
+
   handleSelectedLocation = city => {
     this.setState({ city })
     //console.log("handleSelectedLocation", city);
 
-    const action = { type: 'setCity', value: city }
-    store.dispatch(action);
+    store.dispatch(setCity(city));
   }
 
   render() {
