@@ -21,8 +21,6 @@ const apiKey = "cc4733757cb8fb8f7ab23f2931a7ef89";
 const urlBaseWeather = "http://api.openweathermap.org/data/2.5/forecast";
 
 
-
-
 class ForecastExtended extends Component{
 
   constructor(){
@@ -32,21 +30,37 @@ class ForecastExtended extends Component{
   }
 
   componentDidMount() {
-    const urlForecast = `${urlBaseWeather}?q=${this.props.city}&appid=${apiKey}`;
+    this.updateCity(this.props.city);
+  }
 
-    fetch(urlForecast).then( 
+  componentWillReceiveProps(nextProps){
+    if(nextProps.city != this.props.city){
+      this.setState({forecastData: null});
+      this.updateCity(nextProps.city)
+    }
+  }
+
+  updateCity = city => {
+    const urlForecast = `${urlBaseWeather}?q=${city}&appid=${apiKey}`;
+
+    fetch(urlForecast).then(
       res => (res.json())
-      ).then( weatherData => {
-        console.log(weatherData)
-        const forecastData = transformForecast(weatherData);
-        console.log(forecastData)
-        this.setState({ forecastData })
+    ).then(weatherData => {
+      //console.log(weatherData)
+      const forecastData = transformForecast(weatherData);
+      //console.log(forecastData)
+      this.setState({ forecastData })
     })
   }
   
-  renderForecastItemDay = () => (
-    <h1>Render DaysItems</h1>
-    //days.map(day => <ForecastItem key={day} weekDay={day} hour={10} data={data}></ForecastItem>)
+  renderForecastItemDay = (forecastData) => (
+    //<h1>Render DaysItems</h1>
+    forecastData.map(forecast => 
+    <ForecastItem 
+        key={`${forecast.weekDay}${forecast.hour}`} 
+      weekDay={forecast.weekDay} 
+      hour={forecast.hour} data={forecast.data}>
+    </ForecastItem>)
   )
     
   renderProgress = () => {
@@ -60,7 +74,7 @@ class ForecastExtended extends Component{
         <h2 className="forecast-title">Pronóstico Extendido para: {city}</h2>
         {
           (forecastData)
-          ? this.renderForecastItemDay()
+            ? this.renderForecastItemDay(forecastData)
           : this.renderProgress()
         }
       </div>
