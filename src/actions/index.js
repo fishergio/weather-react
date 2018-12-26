@@ -17,7 +17,7 @@ export const setSelectedCity = payload => {
     // Activar en el estado un indicador de busqueda de datos
     dispatch(setCity(payload));
 
-    fetch(urlForecast).then(
+    return fetch(urlForecast).then(
       res => (res.json())
     ).then(weatherData => {
       const forecastData = transformForecast(weatherData);
@@ -26,6 +26,5 @@ export const setSelectedCity = payload => {
       // modificar el estado con el resultado de la promise (fetch)
       dispatch(setForecastData({city: payload, forecastData}))
     });
-    return;
   }
 }
