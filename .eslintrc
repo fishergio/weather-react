@@ -1,3 +1,6 @@
 {
-  "extends": ["react-app", "eslint:recommended"]
+  "extends": ["react-app", "eslint:recommended"],
+  "rules": {
+    "no-case-declarations": 0
+  }
 }
